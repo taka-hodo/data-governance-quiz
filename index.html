@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データガバナンス クイズ</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <div class="quiz-container">
+        <div id="question-area">
+            <div id="question-number"></div>
+            <div id="question-text">
+                <p class="english-text"></p>
+                <p class="japanese-text"></p>
+            </div>
+            <form id="options-form">
+                </form>
+            <div id="feedback" style="display: none;"></div>
+            <button id="show-explanation-button" style="display: none;">解説を見る</button>
+            <div id="explanation" style="display: none;">
+                <h4>解説 (Explanation)</h4>
+                <p class="explanation-text-jp"></p>
+                <p class="explanation-text-en"></p> </div>
+            <button id="next-question-button" style="display: none;">次の問題へ</button>
+        </div>
+
+        <div id="scoring-area" style="display: none;">
+            <h2>採点結果 (Your Score)</h2>
+            <div id="final-score"></div>
+            <div id="pass-fail-status"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script> </body>
+</html>
