@@ -1,35 +1,737 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>データガバナンス クイズ</title>
-    <link rel="stylesheet" href="style.css"> </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DMBOK資格試験 CDMP 50問</title>
+  <style>
+    body { font-family: sans-serif; background: #f8f8f8; margin: 0; padding: 20px; }
+    .quiz-container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .question-number { font-weight: bold; margin-bottom: 10px; }
+    .question-text { margin-bottom: 20px; }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    button { cursor: pointer; padding: 10px; border: none; border-radius: 4px; font-size: 14px; }
+    .option-btn { background: #e0f0ff; }
+    .option-btn:disabled { opacity: 0.6; }
+    #explanation-btn, #next-btn, #score-btn { background: #4a90e2; color: #fff; margin-right: 10px; }
+    #explanation { background: #f0f0f0; padding: 10px; border-radius: 4px; margin-bottom: 20px; white-space: pre-wrap; }
+    .result { font-size: 18px; font-weight: bold; margin-top: 20px; text-align: center; }
+  </style>
+</head>
 <body>
-    <div class="quiz-container">
-        <div id="question-area">
-            <div id="question-number"></div>
-            <div id="question-text">
-                <p class="english-text"></p>
-                <p class="japanese-text"></p>
-            </div>
-            <form id="options-form">
-                </form>
-            <div id="feedback" style="display: none;"></div>
-            <button id="show-explanation-button" style="display: none;">解説を見る</button>
-            <div id="explanation" style="display: none;">
-                <h4>解説 (Explanation)</h4>
-                <p class="explanation-text-jp"></p>
-                <p class="explanation-text-en"></p> </div>
-            <button id="next-question-button" style="display: none;">次の問題へ</button>
-        </div>
-
-        <div id="scoring-area" style="display: none;">
-            <h2>採点結果 (Your Score)</h2>
-            <div id="final-score"></div>
-            <div id="pass-fail-status"></div>
-        </div>
+  <div class="quiz-container">
+    <h1>データガバナンス 基礎知識クイズ</h1>
+    <div id="question-box">
+      <div class="question-number" id="question-number"></div>
+      <div class="question-text" id="question-text"></div>
+      <div class="options" id="options"></div>
+      <button id="explanation-btn">解説を見る</button>
+      <div class="explanation" id="explanation" style="display:none;"></div>
+      <button id="next-btn" style="display:none;">次の問題へ</button>
     </div>
+    <button id="score-btn" style="display:none;">採点をする</button>
+    <div id="result" class="result"></div>
+  </div>
 
-    <script src="script.js"></script> </body>
+  <script>
+    const questions = [
+      {
+        question: 'Every enterprise is subject to many governmental and industry regulations, many of which regulate how data and information is used and managed. Part of the Data Governance Function is to:',
+        options: [
+          'Implement data integration services',
+          'Perform preliminary data screening and review',
+          'Monitor and ensure regulatory compliance',
+          'Define high-quality data',
+          'Manage document and email retention periods'
+        ],
+        correct: 2,
+        explanation: '【問題】ある企業は多くの政府および業界の規制を受けており、これらの多くはデータおよび情報の使用と管理を規定しています。データガバナンス機能の一部は何ですか？\n【選択肢】A. データ統合サービスの実装 B. 予備的なデータスクリーニングとレビュー C. 規制遵守の監視と確保 D. 高品質データの定義 E. ドキュメントおよびメールの保持期間の管理\n\nDMBOKでは、データガバナンスはポリシー、標準、手順、および責任を提供し、法的および規制上の要件を確実に遵守するための監視と管理を行う機能です。したがって、正答は「規制遵守の監視と確保」です。'
+      },
+      {
+        question: 'Data governance guides the implementation of adequate controls to monitor and document compliance with data-related regulations. Which of the following is often the initial reason for implementing data governance?',
+        options: [
+          'Improving data quality',
+          'Implementing Master Data Management',
+          'Achieving regulatory compliance',
+          'Developing a business glossary',
+          'Enabling data sharing'
+        ],
+        correct: 0,
+        explanation: '【問題】データガバナンスはデータ関連規制の遵守を監視および文書化するための適切な管理策の実装を導きます。データガバナンスを導入する最初の理由としてしばしば挙げられるものは次のうちどれですか？\n【選択肢】A. データ品質の向上 B. マスターデータ管理の実装 C. 規制遵守の達成 D. ビジネス用語集の開発 E. データ共有の有効化\n\nDMBOKによると、データガバナンスの主な導入動機は、組織が信頼できるデータを確保し、意思決定を改善するためにデータ品質を向上させることです。したがって、正答は「データ品質の向上」です。'
+      },
+      {
+        question: 'To achieve its overall goal of enabling an organization to manage data as an asset, a Data Governance program must be:',
+        options: [
+        'Solely focused on IT requirements',
+        'Flexible, multi-layered, framework-based, and principle-based',
+        'Primarily concerned with technical standards',
+        'Limited to data security oversight',
+        'Managed entirely by a centralized team'
+        ],
+        correct: 1,
+        explanation: '【問題】組織がデータを資産として管理できるようにするという全体目標を達成するために、データガバナンスプログラムはどのようであるべきか？\n【選択肢】A. IT要件のみに重点を置く B. 柔軟で、多層的、フレームワークベースかつ原則ベース C. 主に技術基準に関心を持つ D. データセキュリティ監視に限定 E. 中央集権的チームのみで管理する\n\nDMBOKによると、データを資産として扱うためには原則とフレームワークに基づく多層的かつ柔軟な構造が必要です。したがって正答は「柔軟で、多層的、フレームワークベースかつ原則ベース」です。'
+    　},
+    　 {
+        question: 'Data Governance can be understood in terms of political governance and includes which type of function?',
+        options: [
+        'Operational functions (like data entry)',
+        'Execution functions (like data integration)',
+        'Legislative-like functions (defining policies)',
+        'Analytical functions (like data science)',
+        'Development functions (like software coding)'
+        ],
+        correct: 2,
+        explanation: '【問題】データガバナンスは政治的ガバナンスに例えられ、どのような機能を含むか？\n【選択肢】A. 運用機能（データ入力など） B. 実行機能（データ統合など） C. 立法的機能（ポリシー定義） D. 分析機能（データサイエンスなど） E. 開発機能（ソフトウェアコーディングなど）\n\nDMBOKでは、データガバナンスはポリシーや標準を策定する「立法的機能」を含むと定義しています。したがって正答は「立法的機能（ポリシー定義）」です。'
+    },
+    {
+        question: 'The scope and focus of a particular data governance program will depend on organizational needs, but most programs include:',
+        options: [
+        'Designing database schemas',
+        'Developing predictive models',
+        'Setting and enforcing policies related to data and Metadata management',
+        'Performing data validation',
+        'Creating content metadata'
+        ],
+        correct: 2,
+        explanation: '【問題】特定のデータガバナンスプログラムの範囲と焦点は組織のニーズによるが、多くにプログラムに含まれるものは何か？\n【選択肢】A. データベーススキーマの設計 B. 予測モデルの開発 C. データおよびメタデータ管理に関するポリシーの設定と施行 D. データ検証の実施 E. コンテンツメタデータの作成\n\nDMBOKによると、ガバナンスプログラムはデータ・メタデータ管理ポリシーの設定と施行を中心に構成されます。したがって正答は「データおよびメタデータ管理に関するポリシーの設定と施行」です。'
+    },
+    {
+        question: 'Data Governance activities provide oversight and containment, through:',
+        options: [
+        'Defining database types',
+        'Developing ETL processes',
+        'Modeling Big Data',
+        'Strategy, principles, policy, and stewardship',
+        'Implementing data masking methods'
+        ],
+        correct: 3,
+        explanation: '【問題】データガバナンス活動は、どのように監視と抑制を提供するか？\n【選択肢】A. データベースタイプの定義 B. ETLプロセスの開発 C. ビッグデータのモデリング D. 戦略、原則、ポリシー、およびスチュワードシップ E. データマスキング手法の実装\n\nDMBOKでは、ガバナンスは戦略・原則・ポリシー・データスチュワードシップを通じて組織をガイドすると定義しています。したがって正答は「戦略、原則、ポリシー、およびスチュワードシップ」です。'
+    },
+    {
+        question: 'Data governance ensures data is properly managed without directly executing data management. This describes:',
+        options: [
+        'Data modeling activities',
+        'A separation of duty between oversight and execution',
+        'Data quality remediation',
+        'Metadata repository management',
+        'Data security enforcement'
+        ],
+        correct: 1,
+        explanation: '【問題】データガバナンスは、直接データ管理を実行せずに適切に管理されることを保証する。これは何を示しているか？\n【選択肢】A. データモデリング活動 B. 監督と実行の職務分離 C. データ品質の修復 D. メタデータリポジトリの管理 E. データセキュリティの施行\n\nDMBOKでは、ガバナンスは監視を担当し、実行は別チームが行う職務分離を重視します。したがって正答は「監督と実行の職務分離」です。'
+    },
+    {
+        question: 'Oversight for the Data Management Maturity Assessment (DMMA) process belongs to:',
+        options: [
+        'The IT operations team',
+        'Data Integration Architects',
+        'The Data Governance team',
+        'Subject Matter Experts (SMEs)',
+        'Database Administrators (DBAs)'
+        ],
+        correct: 2,
+        explanation: '【問題】データ管理成熟度評価（DMMA）プロセスの監督はどこに属するか？\n【選択肢】A. IT運用チーム B. データ統合アーキテクト C. データガバナンスチーム D. 主題専門家（SMEs） E. データベース管理者（DBAs）\n\nDMBOKでは、成熟度評価の監督はデータガバナンスチームの責任です。したがって正答は「データガバナンスチーム」です。'
+    },
+    {
+        question: 'Data Governance oversees data management activities and decisions to:',
+        options: [
+        'Build physical data models for query performance',
+        'Create report and visualization formatting standards',
+        'Ensure data is managed properly, according to policies and best practices',
+        'Determine generalizations errors in models',
+        'Optimize database storage'
+        ],
+        correct: 2,
+        explanation: '【問題】データガバナンスはデータ管理活動と意思決定をどのように監督するか？\n【選択肢】A. クエリ性能向けの物理データモデル構築 B. レポート/可視化フォーマット標準作成 C. ポリシーとベストプラクティスに応じた適切なデータ管理保証 D. モデル一般化エラー判定 E. データベースストレージ最適化\n\nDMBOKでは、ガバナンスの主な役割はポリシーやベストプラクティスに従った管理保証です。したがって正答は「ポリシーとベストプラクティスに応じた適切なデータ管理保証」です。'
+    },
+    {
+        question: 'Managing shared data to meet organizational goals, reduce risks associated with data redundancy, ensure higher quality, and reduce the costs of data integration is the definition of:',
+        options: [
+        'Data Security',
+        'Metadata Management',
+        'Data Governance',
+        'Reference and Master Data Management',
+        'Data Warehousing'
+        ],
+        correct: 3,
+        explanation: '【問題】組織目標を達成し、冗長性リスクを低減し、品質を高め、統合コストを削減するための<shared data>管理の定義はどれか？\n【選択肢】A. データセキュリティ B. メタデータ管理 C. データガバナンス D. リファレンス＆マスターデータ管理 E. データウェアハウジング\n\nDMBOKでは、共有データの整合性と品質維持を担うのはリファレンス＆マスターデータ管理です。したがって正答は「リファレンス＆マスターデータ管理」です。'
+    },
+    {
+        question: 'According to the sources, improving the availability and quality of Reference and Master Data has a dramatic impact on:',
+        options: [
+        'Database storage optimization',
+        'The ability to perform real-time data synchronization',
+        'Overall quality of the data and business confidence in data',
+        'Implementing object-oriented database schemes',
+        'Defining data quality rules'
+        ],
+        correct: 2,
+        explanation: '【問題】情報源によると、参照およびマスターデータの可用性と品質向上は何に劇的な影響を与えるか？\n【選択肢】A. DBストレージ最適化 B. リアルタイム同期能力 C. 全体的データ品質とビジネスの信頼性 D. オブジェクト指向DBスキーム実装 E. データ品質ルール定義\n\nDMBOKでは、参照/マスターデータの質向上は全体的なデータ品質とビジネスの信頼性を大幅に向上させると述べています。したがって正答は「全体的データ品質とビジネスの信頼性」です。'
+    },
+    {
+        question: 'Master Data Management reduces risks related to inconsistent decisions or lost opportunities by enabling:',
+        options: [
+        'Data masking',
+        'Automated data monitoring',
+        'A consistent representation of the entities critical to the organization',
+        'Implementation of the Shewhart / Deming cycle',
+        'Development of a litigation playbook'
+        ],
+        correct: 2,
+        explanation: '【問題】マスターデータ管理は、不一致な意思決定や機会損失に伴うリスクをどのように低減するか？\n【選択肢】A. データマスキング B. 自動化データ監視 C. 組織にとって重要なエンティティの一貫した表現 D. シェハート/デミングサイクル実装 E. 訴訟戦略策定\n\nDMBOKでは、MDMは重要エンティティの一元的かつ一貫したビューを提供して不整合リスクを低減すると説明しています。したがって正答は「組織にとって重要なエンティティの一貫した表現」です。'
+    },
+    {
+        question: 'Data that is used solely to characterize other data in an organization, or solely to relate data in a database to information beyond the boundaries of the organization, is called:',
+        options: [
+        'Transactional Data',
+        'Big Data',
+        'Metadata',
+        'Reference Data',
+        'Master Data'
+        ],
+        correct: 2,
+        explanation: '【問題】組織内の他のデータを特徴づける、または組織外の情報と関連付けるためだけに使われるデータは何と呼ばれるか？\n【選択肢】A. トランザクショナルデータ B. ビッグデータ C. メタデータ D. リファレンスデータ E. マスターデータ\n\nDMBOKでは、他のデータを説明したり外部情報と関連付けたりするデータはメタデータと定義しています。したがって正答は「メタデータ」です。'
+    },
+    {
+        question: 'Master Data work brings to light the importance of clear and consistent:',
+        options: [
+        'Statistical process control methods',
+        'Legal and ethical review processes',
+        'Logical data definitions',
+        'Data lineage documentation',
+        'Data mining techniques'
+        ],
+        correct: 2,
+        explanation: '【問題】マスターデータ管理の作業は、何の明確かつ一貫した重要性を浮き彫りにするか？\n【選択肢】A. 統計的プロセス管理メソッド B. 法的・倫理的レビュー工程 C. 論理データ定義 D. データリネージドキュメント E. データマイニング技術\n\nDMBOKでは、マスターデータ管理には論理データ定義の明確かつ一貫性が不可欠であると述べています。したがって正答は「論理データ定義」です。'
+    },
+    {
+        question: 'Sharing and using Reference and Master Data across an organization requires collaboration between multiple parties and sometimes with external parties. To assure proper access and use, it is necessary to establish:',
+        options: [
+        'Data profiling tools',
+        'System development lifecycles',
+        'Data sharing agreements',
+        'Data parsing processes',
+        'Data product development lifecycles'
+        ],
+        correct: 2,
+        explanation: '【問題】組織内外でリファレンス/マスターデータを共有・利活用するには複数の関係者間の協力が必要です。適切なアクセスと利用を保証するには何を確立する必要があるか？\n【選択肢】A. データプロファイリングツール B. システム開発ライフサイクル C. データ共有合意 D. データ解析プロセス E. データプロダクト開発ライフサイクル\n\nDMBOKによると、共有データ利用にはデータ共有合意を文書化し、権限と責任を明確にすることが必要です。したがって正答は「データ共有合意」です。'
+    },
+    {
+        question: 'Metrics tied to Reference and Master Data quality and supporting processes can include:',
+        options: [
+        'Number of data breaches detected',
+        'Compliance with security policies',
+        'Percentage of records validated',
+        'Data change activity, including auditing lineage',
+        'Number of business rule violations'
+        ],
+        correct: 3,
+        explanation: '【問題】リファレンス/マスターデータ品質および関連プロセスの指標には何が含まれ得るか？\n【選択肢】A. 検出されたデータ侵害件数 B. セキュリティポリシー準拠率 C. レコード検証率 D. データ変更活動（リネージ監査含む） E. ビジネスルール違反件数\n\nDMBOKでは、リファレンス/マスターデータのプロセス評価には変更活動やリネージ監査などの指標が用いられるとしています。したがって正答は「データ変更活動（リネージ監査含む）」です。'
+    },
+    {
+        question: 'Business Data Stewards are often accountable for controlling and ensuring the quality of:',
+        options: [
+        'Unstructured content',
+        'Transactional data',
+        'Predictive models',
+        'Reference Data',
+        'Data warehousing operations'
+        ],
+        correct: 3,
+        explanation: '【問題】ビジネスデータスチュワードは、どのデータの品質管理と保証に責任を負うことが多いか？\n【選択肢】A. 非構造化コンテンツ B. トランザクショナルデータ C. 予測モデル D. リファレンスデータ E. データウェアハウジング運用\n\nDMBOKによると、ビジネスデータスチュワードはリファレンス/マスターデータの品質管理を担当します。したがって正答は「リファレンスデータ」です。'
+    },
+    {
+        question: 'The process of discovering, analyzing, representing, and communicating data requirements in a precise form called the data model is:',
+        options: [
+        'Data Storage and Operations',
+        'Data Security',
+        'Data Modeling and Design',
+        'Data Integration and Interoperability',
+        'Data Quality'
+        ],
+        correct: 2,
+        explanation: '【問題】データ要件を正確な形式（データモデル）で発見・分析・表現・伝達するプロセスを何と呼ぶか？\n【選択肢】A. データストレージと運用 B. データセキュリティ C. データモデリングと設計 D. データ統合と相互運用性 E. データ品質\n\nDMBOKでは、このプロセスは「データモデリングと設計」と定義されています。したがって正答は「データモデリングと設計」です。'
+    },
+    {
+        question: 'The highest level of data model types described in the sources is the:',
+        options: [
+        'Dimensional Model',
+        'Relational Model',
+        'Conceptual Data Model (as part of an Enterprise Data Model)',
+        'Object-Oriented Model',
+        'Fact-Based Model'
+        ],
+        correct: 2,
+        explanation: '【問題】情報源で説明されているデータモデルタイプのうち最上位に位置するものはどれか？\n【選択肢】A. 次元モデル B. リレーショナルモデル C. 概念データモデル（エンタープライズデータモデルの一部として） D. オブジェクト指向モデル E. ファクトベースモデル\n\nDMBOKでは、エンタープライズデータモデルの一部としての概念データモデルが最上位に位置付けられます。したがって正答は「概念データモデル」です。'
+    },
+    {
+        question: 'Within a dimensional scheme, the rows of which table correspond to particular measurements and are numeric, such as amounts, quantities, or counts?',
+        options: [
+        'Dimension Table',
+        'Fact Table',
+        'Lookup Table',
+        'Reference Table',
+        'Master Table'
+        ],
+        correct: 1,
+        explanation: '【問題】次元スキーム内で、金額や数量など特定の測定値を数値で格納する行が存在するテーブルはどれか？\n【選択肢】A. 次元テーブル B. ファクトテーブル C. ルックアップテーブル D. リファレンステーブル E. マスターテーブル\n\nDMBOKでは、測定値を格納するテーブルはファクトテーブルと定義しています。したがって正答は「ファクトテーブル」です。'
+    },
+    {
+        question: 'According to the sources, definitions for entities, attributes, and relationships are essential to maintaining:',
+        options: [
+        'Data security',
+        'System availability',
+        'The precision on a data model',
+        'Data integration performance',
+        'Metadata quality'
+        ],
+        correct: 4,
+        explanation: '【問題】情報源によると、エンティティ、属性、関係性の定義は何を維持するために不可欠か？\n【選択肢】A. データセキュリティ B. システムの可用性 C. データモデルの正確性 D. データ統合性能 E. メタデータ品質\n\nDMBOKでは、これらの定義がメタデータ品質を維持する上でキーになると述べています。したがって正答は「メタデータ品質」です。'
+    },
+    {
+        question: 'The Data Model Scorecard® can be used to evaluate a data model for correctness, completeness, and:',
+        options: [
+        'Regulatory compliance',
+        'Sustainability',
+        'Maintainability',
+        'Quality',
+        'Issue management capability'
+        ],
+        correct: 2,
+        explanation: '【問題】Data Model Scorecard®は、データモデルを正確性、完全性、および何を評価するために使用できるか？\n【選択肢】A. 規制準拠 B. 持続可能性 C. 保守性 D. 品質 E. 課題管理能力\n\nDMBOKでは、Scorecard®は保守性（維持容易性）を評価項目に含むとしています。したがって正答は「保守性」です。'
+    },
+    {
+        question: 'One characteristic of a high-quality data model, according to the sources, is that it adheres to the principle of:',
+        options: [
+        'Normalization (avoiding denormalization)',
+        'Orthogonal structures',
+        'Coupling a database to a single application',
+        'Lack of definitions for entities',
+        'Ignoring consistency with the enterprise data model'
+        ],
+        correct: 0,
+        explanation: '【問題】情報源によると、高品質なデータモデルの特徴の一つは何の原則に従っているか？\n【選択肢】A. 正規化（非正規化の回避） B. 直交構造 C. データベースを単一アプリケーションに結合 D. エンティティ定義の欠如 E. エンタープライズデータモデルとの一貫性の無視\n\nDMBOKでは、冗長性を排除するために正規化原則を順守することを推奨しています。したがって正答は「正規化」です。'
+    },
+    {
+        question: 'Guidelines for data modeling, as described in the sources, should set expectations for:',
+        options: [
+        'Data lineage capture for each attribute',
+        'Real-time data synchronization',
+        'Implementation of data masking',
+        'Root cause analysis of data issues',
+        'Development of Big Data models'
+        ],
+        correct: 0,
+        explanation: '【問題】情報源で説明されるデータモデリングガイドラインは何に対する期待値を設定すべきか？\n【選択肢】A. 属性ごとのデータリネージキャプチャ B. リアルタイムデータ同期 C. データマスキング実装 D. データ問題の根本原因分析 E. ビッグデータモデル開発\n\nDMBOKでは、属性レベルでのリネージキャプチャを求めることがガイドラインの期待事項とされています。したがって正答は「属性ごとのデータリネージキャプチャ」です。'
+    },
+    {
+        question: 'According to the source, a data model structure should be consistent in terminology and usage with structures that appear in related data models, and ideally with the:',
+        options: [
+        'Systems development lifecycle (SDLC)',
+        'Enterprise data model (EDM), if one exists',
+        'Service Level Agreement (SLA)',
+        'Business continuity plan',
+        'Data protection program'
+        ],
+        correct: 1,
+        explanation: '【問題】情報源によると、データモデル構造は関連モデルと用語や使い方で一貫しているべきであり、理想的には何と一致すべきか？\n【選択肢】A. システム開発ライフサイクル B. エンタープライズデータモデル C. SLA D. 事業継続計画 E. データ保護プログラム\n\nDMBOKでは、既存のエンタープライズデータモデルとの用語整合が推奨されています。したがって正答は「エンタープライズデータモデル」です。'
+    },
+    {
+        question: 'Ensuring that data is fit for purpose is a primary goal of data management and means managing:',
+        options: [
+        'Data Security',
+        'Data Storage',
+        'The quality of data',
+        'Metadata',
+        'Data Integration'
+        ],
+        correct: 2,
+        explanation: '【問題】データを目的に適合させることはデータ管理の主要目標であり、何を管理することを意味するか？\n【選択肢】A. データセキュリティ B. データストレージ C. データ品質 D. メタデータ E. データ統合\n\nDMBOKでは、データを目的に適合させるには品質管理が不可欠であると述べています。したがって正答は「データ品質」です。'
+    },
+    {
+        question: 'Organizations manage their data because they want to use it. If they cannot rely on it to meet business needs, then the effort to collect, store, secure, and enable access to it is wasted. This highlights the centrality of:',
+        options: [
+        'Data Archiving',
+        'Data Quality',
+        'Data Governance',
+        'Data Warehousing',
+        'Data Modeling'
+        ],
+        correct: 1,
+        explanation: '【問題】組織がデータを管理する理由は利用するためです。ビジネスニーズを満たす信頼性がなければ…何の中心性を示すか？\n【選択肢】A. データアーカイブ B. データ品質 C. データガバナンス D. データウェアハウジング E. データモデリング\n\nDMBOKでは、データ品質の確保がデータ管理の価値実現における中核と位置付けられています。したがって正答は「データ品質」です。'
+    },
+    {
+        question: 'The sources state that there is an ethical imperative not only to protect data, but also to:',
+        options: [
+        'Monetize its value',
+        'Perform complex analytics on it',
+        'Manage its quality',
+        'Integrate it across systems',
+        'Store it securely'
+        ],
+        correct: 2,
+        explanation: '【問題】情報源は、データを保護するだけでなく倫理的義務として何を行うべきと述べているか？\n【選択肢】A. 価値の収益化 B. 複雑な分析 C. 品質管理 D. システム横断統合 E. 安全な保管\n\nDMBOKでは、倫理的データ管理には品質維持も含むと定義しています。したがって正答は「品質管理」です。'
+    },
+    {
+        question: 'Low quality data (inaccurate, incomplete, or out-of-date) represents:',
+        options: [
+        'Value that can be expressed in economic terms',
+        'A valuable asset',
+        'Risk to an organization',
+        'An opportunity for data monetization',
+        'A well-managed asset'
+        ],
+        correct: 2,
+        explanation: '【問題】低品質のデータ（不正確、未完、古い）は何を表すか？\n【選択肢】A. 経済的価値 B. 貴重な資産 C. 組織へのリスク D. データ収益化の機会 E. 適切に管理された資産\n\nDMBOKでは、低品質データは組織リスクとして扱われると述べられています。したがって正答は「組織へのリスク」です。'
+    },
+    {
+        question: 'A Data Quality program should be guided by principles including:',
+        options: [
+        'Focusing on correcting records only',
+        'Managing quality at the creation point only',
+        'Addressing only the symptoms of data issues',
+        'Objective measurement and transparency',
+        'Leaving responsibility to IT professionals only'
+        ],
+        correct: 3,
+        explanation: '【問題】データ品質プログラムは以下の原則に基づくべきである：どれか？\n【選択肢】A. 記録修正のみ焦点 B. 作成時の品質管理のみ C. 問題の症状のみ対応 D. 客観的測定と透明性 E. IT専門家のみに任せる\n\nDMBOKでは、品質管理には客観的指標と透明性が不可欠とされています。したがって正答は「客観的測定と透明性」です。'
+    },
+    {
+        question: 'According to the sources, problems with the quality of data should be understood and addressed at their root causes, rather than just their symptoms. Because these causes are often related to process or system design, improving data quality often requires:',
+        options: [
+        'Increasing data storage capacity',
+        'Implementing new data security tools',
+        'Changes to processes and the systems that support them',
+        'Developing a business glossary',
+        'Creating a disaster recovery plan'
+        ],
+        correct: 2,
+        explanation: '【問題】情報源によると、データ品質問題は症状ではなく根本原因で理解・対処すべき。これらの原因はプロセスやシステム設計に関係するため、品質改善には何が必要か？\n【選択肢】A. ストレージ容量増加 B. 新たなセキュリティツール導入 C. プロセスおよびそれを支えるシステムの変更 D. ビジネス用語集作成 E. 災害復旧計画作成\n\nDMBOKでは、品質問題の根本対策にはプロセスやシステム設計の変更が必要とされています。したがって正答は「プロセスおよびそれを支えるシステムの変更」です。'
+    },
+    {
+        question: 'Data quality levels need to be measured objectively and consistently. Measurements and measurement methodology should be shared with stakeholders because they are the arbiters of:',
+        options: [
+        'Data modeling schemes',
+        'Service levels',
+        'Governance frameworks',
+        'Quality',
+        'Data lineage'
+        ],
+        correct: 3,
+        explanation: '【問題】データ品質レベルは客観的かつ一貫して測定する必要がある。測定値や手法はステークホルダーと共有すべき。彼らは何の判断者か？\n【選択肢】A. モデリングスキーム B. サービスレベル C. ガバナンスフレームワーク D. 品質 E. データリネージ\n\nDMBOKでは、ステークホルダーは品質の判断者であるため、測定結果を共有することが推奨されています。したがって正答は「品質」です。'
+    },
+    {
+        question: 'A Data Quality dimension is a measurable feature or characteristic of data. Examples include:',
+        options: [
+        'Data format and storage location',
+        'Compliance, Completeness, Accuracy, Consistency, Uniqueness, Timeliness, Validity',
+        'Type of data (e.g., transactional, reference)',
+        'Level of protection required',
+        'Cost of storage and processing'
+        ],
+        correct: 1,
+        explanation: '【問題】データ品質ディメンションはデータの測定可能な特性である。例として何が含まれるか？\n【選択肢】A. データ形式や保存場所 B. 準拠性、完全性、正確性、一貫性、唯一性、タイムリー性、有効性 C. データ種別 D. 保護レベル E. 保存・処理コスト\n\nDMBOKでは品質ディメンションに準拠性、完全性、正確性、一貫性、唯一性、タイムリー性、有効性を挙げています。したがって正答は「準拠性、完全性、正確性、一貫性、唯一性、タイムリー性、有効性」です。'
+    },
+    {
+        question: 'The Shewhart / Deming cycle is a problem-solving model known as Plan-Do-Check-Act, and a version of this cycle is used as a general approach to:',
+        options: [
+        'Data Security Management',
+        'Data Warehousing and Business Intelligence Reporting',
+        'Data Quality Improvement',
+        'Master Data Management implementation',
+        'Metadata repository management'
+        ],
+        correct: 2,
+        explanation: '【問題】シェハート／デミングサイクルはPDCAと呼ばれ、このサイクルは一般的に何に適用されるか？\n【選択肢】A. データセキュリティ管理 B. データウェアハウス＆BI報告 C. データ品質改善 D. MDM実装 E. メタデータリポジトリ管理\n\nDMBOKではPDCAサイクルはデータ品質改善に広く用いられるとしています。したがって正答は「データ品質改善」です。'
+    },
+    {
+        question: 'The best way to create high quality data is to:',
+        options: [
+        'Focus on correcting errors after they occur',
+        'Implement a robust data auditing process',
+        'Prevent poor quality data from entering an organization',
+        'Increase the number of data quality analysts',
+        'Develop complex data validation procedures'
+        ],
+        correct: 2,
+        explanation: '【問題】高品質データを作る最善策は？\n【選択肢】A. 事後エラー修正に注力 B. 強力なデータ監査プロセス実装 C. 低品質データの流入防止 D. データ品質アナリスト増員 E. 複雑な検証手順開発\n\nDMBOKでは予防策としてデータ流入時の品質管理を重視しています。したがって正答は「低品質データの流入防止」です。'
+    },
+    {
+        question: 'Business Intelligence (BI) refers to a type of data analysis aimed at:',
+        options: [
+        'Designing database schemas',
+        'Supporting business decision making',
+        'Implementing data security policies',
+        'Managing unstructured content',
+        'Governing data lineage'
+        ],
+        correct: 1,
+        explanation: '【問題】BIはどのようなデータ分析を指すか？\n【選択肢】A. DBスキーマ設計 B. ビジネス意思決定支援 C. セキュリティポリシー実施 D. 非構造化コンテンツ管理 E. データリネージガバナンス\n\nDMBOKではBIは意思決定支援を目的とした分析と定義しています。したがって正答は「ビジネス意思決定支援」です。'
+    },
+    {
+        question: 'According to the sources, industries that are highly regulated and need compliance-centric reporting will benefit greatly from:',
+        options: [
+        'A robust ETL process',
+        'Implementing predictive analytics tools',
+        'A well-governed data warehouse',
+        'Focusing on real-time data integration',
+        'Using multidimensional database technologies'
+        ],
+        correct: 2,
+        explanation: '【問題】規制が厳しくコンプライアンス中心の報告が必要な業界は何から大きな恩恵を受けるか？\n【選択肢】A. 強力なETLプロセス B. 予測分析ツール実装 C. ガバナンスの行き届いたデータウェアハウス D. リアルタイム統合 E. 多次元DB技術\n\nDMBOKでは、規制業界では適切に管理されたデータウェアハウスがコンプライアンス報告に不可欠とされています。したがって正答は「ガバナンスの行き届いたデータウェアハウス」です。'
+    },
+    {
+        question: 'Within a data warehouse, data is typically stored in structures designed for reporting and analysis, often following a dimensional scheme using:',
+        options: [
+        'Relational tables',
+        'Key-value pairs',
+        'Fact and Dimension tables',
+        'Temporal tables',
+        'Object-oriented structures'
+        ],
+        correct: 2,
+        explanation: '【問題】DW内で報告・分析用に設計された構造は、次元スキームに従い何を使用するか？\n【選択肢】A. リレーショナルテーブル B. キー・バリューペア C. ファクト＆次元テーブル D. 時系列テーブル E. オブジェクト指向構造\n\nDMBOKではDWではファクトと次元テーブルを用いたスキームを推奨しています。したがって正答は「ファクト＆次元テーブル」です。'
+    },
+    {
+        question: 'Business and technical expectations for data warehouse environments should be specified in:',
+        options: [
+        'Data policies',
+        'Data sharing agreements',
+        'Service Level Agreements (SLAs)',
+        'Business requirements documents',
+        'Change management plans'
+        ],
+        correct: 2,
+        explanation: '【問題】DW環境のビジネスおよび技術要件は何に明記すべきか？\n【選択肢】A. データポリシー B. データ共有合意 C. SLA D. ビジネス要件書 E. 変更管理計画\n\nDMBOKでは、データウェアハウスの可用性やパフォーマンス、応答時間などのビジネス要求と技術要件を明確に管理・遵守するために、Service Level Agreement（SLA）にこれらの期待値を定義することが推奨されています。したがって正答は「Service Level Agreements (SLAs)」です。'
+    },
+    {
+        question: "Data Warehouse/Business Intelligence Governance activities critical to ongoing support and release planning, according to the sources, should be addressed during:",
+        options: [
+        "Initial requirements gathering only",
+        "The implementation phase",
+        "Data modeling design only",
+        "Data profiling activities",
+        "Disposal of data"
+        ],
+        correct: 1,
+        explanation:
+        "【問題】継続的なサポートおよびリリース計画において重要とされるData Warehouse/Business Intelligenceガバナンス活動は、次のうちどのフェーズで対応すべきでしょうか？\n" +
+        "【選択肢】A. 初期要件定義のみ  B. 実装フェーズ  C. データモデリング設計のみ  D. データプロファイリング活動  E. データ廃棄\n\n" +
+        "DMBOKによると、ガバナンス活動にはシステムの実装フェーズでの計画と管理が含まれ、継続的なサポートおよびリリース管理の策定もこの時点で行われるため、正解はBです。"
+    },
+    {
+        question: "Metadata is critically important in a data warehouse environment because it helps users:",
+        options: [
+        "Determine data lineage and understand calculations in fact tables",
+        "Design the optimal physical storage layout",
+        "Perform root cause analysis on data quality issues",
+        "Implement data masking techniques",
+        "Select the appropriate data modeling scheme"
+        ],
+        correct: 0,
+        explanation:
+        "【問題】データウェアハウス環境でメタデータが極めて重要なのは、ユーザーが何を行うのに役立つからでしょうか？\n" +
+        "【選択肢】A. データの系統（ラインジ）を把握し、ファクトテーブルの計算内容を理解する  B. 最適な物理ストレージ配置を設計する  C. データ品質問題の根本原因分析を行う  D. データマスキング技術を実装する  E. 適切なデータモデリング手法を選択する\n\n" +
+        "DMBOKによると、データウェアハウスのメタデータはデータの来歴や変換ロジックを文書化し、ユーザーが計算方法やソースを理解するのに不可欠であるため、正解はAです。"
+    },
+    {
+        question: "Metadata is data about data. According to the sources, managing any asset requires having data about that asset. Because data cannot be held or touched, to understand what it is and how to use it requires definition and knowledge in the form of:",
+        options: [
+        "Transactional data",
+        "Master data",
+        "Metadata",
+        "Reference data",
+        "Operational data"
+        ],
+        correct: 2,
+        explanation:
+        "【問題】メタデータとは「データについてのデータ」です。あらゆる資産を管理するには、その資産についてのデータが必要ですが、データは把握や操作が難しいため、その定義や利用方法を理解するには何が必要でしょうか？\n" +
+        "【選択肢】A. トランザクションデータ  B. マスターデータ  C. メタデータ  D. 参照データ  E. 操作データ\n\n" +
+        "DMBOKによると、メタデータはデータ要素の定義や構造、意味、由来を文書化するものであり、データを正しく理解・活用するために必須であるため、正解はCです。"
+    },
+    {
+        question: "Organizations get more value out of their data assets if their data is of high quality. Quality data depends on governance. Because it explains the data and processes that enable organizations to function, what is critical to data governance?",
+        options: [
+        "Data Integration",
+        "Metadata",
+        "Data Security",
+        "Data Storage",
+        "Data Modeling"
+        ],
+        correct: 1,
+        explanation:
+        "【問題】データ資産の価値を最大化するにはデータの品質が重要であり、品質データはガバナンスに依存します。組織が機能するためのデータやプロセスを説明する上で、データガバナンスに不可欠なのは何でしょうか？\n" +
+        "【選択肢】A. データ統合  B. メタデータ  C. データセキュリティ  D. データストレージ  E. データモデリング\n\n" +
+        "DMBOKによると、メタデータはデータの意味や関係性、処理手順を明確にし、ガバナンスの基盤として機能するため、正解はBです。"
+    },
+    {
+        question: "Poorly managed Metadata can lead to:",
+        options: [
+        "Improved data quality",
+        "Consistent definitions of data elements",
+        "Reduced data redundancy",
+        "Replicated and redundant dictionaries and repositories",
+        "Better understanding of business terms"
+        ],
+        correct: 3,
+        explanation:
+        "【問題】メタデータを適切に管理しないと、どのような問題が起こり得るでしょうか？\n" +
+        "【選択肢】A. データ品質の向上  B. データ要素の定義の一貫性  C. データ冗長性の削減  D. 辞書やリポジトリの重複・冗長化  E. ビジネス用語の理解向上\n\n" +
+        "DMBOKによると、メタデータ管理が不十分だと同じ情報が複数の辞書やリポジトリに散在し、整合性を欠いた重複が発生するため、正解はDです。"
+    },
+    {
+        question: "Metadata can originate from a range of processes related to data creation, processing, and use, including:",
+        options: [
+        "Change management only",
+        "Data disposal only",
+        "Architecture, modeling, stewardship, governance, Data Quality management, systems development, IT and business operations, and analytics",
+        "Regulatory compliance only",
+        "Data monetization strategies"
+        ],
+        correct: 2,
+        explanation:
+        "【問題】メタデータは、データの生成、処理、利用に関わるさまざまなプロセスから生成されます。次のうち、どれがメタデータの発生源となり得るでしょうか？\n" +
+        "【選択肢】A. 変更管理のみ  B. データ廃棄のみ  C. アーキテクチャ、モデリング、ステュワードシップ、ガバナンス、データ品質管理、システム開発、ITおよび業務運用、分析  D. 規制遵守のみ  E. データ収益化戦略\n\n" +
+        "DMBOKによると、メタデータは組織のあらゆるデータ関連プロセスで生成され、幅広い領域で活用されるため、正解はCです。"
+    },
+    {
+        question: "Defining data quality, including requirements, rules, measurement results, and documentation of issues, is a valuable kind of:",
+        options: [
+        "Transactional data",
+        "Metadata",
+        "Reference data",
+        "Audit information",
+        "Master data"
+        ],
+        correct: 1,
+        explanation:
+        "【問題】要件、ルール、測定結果、問題の文書化などを含むデータ品質の定義は、どのような種類のデータとして扱われるでしょうか？\n" +
+        "【選択肢】A. トランザクションデータ  B. メタデータ  C. 参照データ  D. 監査情報  E. マスターデータ\n\n" +
+        "DMBOKによると、データ品質に関するルールや結果はメタデータの一部として管理され、品質改善に不可欠であるため、正解はBです。"
+    },
+    {
+        question: "Standards and rules for data quality are described in the sources as a critical form of Metadata. To be effective, these rules should be:",
+        options: [
+        "Documented inconsistently across the organization",
+        "Based solely on technical requirements",
+        "Managed as Metadata",
+        "Accessible only to the Data Quality team",
+        "Ignored by subject matter experts"
+        ],
+        correct: 2,
+        explanation:
+        "【問題】データ品質の基準やルールは重要なメタデータの一種とされていますが、効果的に運用するにはこれらのルールをどのように扱うべきでしょうか？\n" +
+        "【選択肢】A. 組織内で不統一に文書化する  B. 技術要件のみを基にする  C. メタデータとして管理する  D. データ品質チームのみがアクセス可能にする  E. ドメイン専門家に無視させる\n\n" +
+        "DMBOKによると、品質ルールはメタデータリポジトリで一元管理・共有することで組織全体での整合性と再利用性が確保されるため、正解はCです。"
+    },
+    {
+        question: "Having security Metadata in place protects an organization from employees who may not recognize the data as sensitive. Security classifications and regulatory sensitivity should be:",
+        options: [
+        "Managed solely by IT operations",
+        "Ignored during data definition",
+        "Documented only in a spreadsheet [No source]",
+        "Captured at the data element and data set level, and documented in a Metadata repository",
+        "Used only for data modeling purposes"
+        ],
+        correct: 3,
+        explanation:
+        "【問題】セキュリティメタデータが整備されていれば、データを機微情報と認識しない社員によるリスクを防げます。セキュリティ分類や規制上の感度情報はどのように管理すべきでしょうか？\n" +
+        "【選択肢】A. IT運用部門のみが管理  B. データ定義時に無視  C. スプレッドシートのみで文書化  D. データ要素およびデータセットレベルでキャプチャし、メタデータリポジトリに記録  E. データモデリング目的のみで使用\n\n" +
+        "DMBOKによると、セキュリティメタデータはデータ要素単位で定義し、リポジトリで一元管理することで細粒度なアクセス制御と継続的な監査が可能になるため、正解はDです。"
+    },
+    {
+        question: "Documents, records, and other unstructured content represent risk to an organization. Managing this risk and getting value from this information both require:",
+        options: [
+        "Predictive analytics",
+        "Data modeling techniques",
+        "Data replication",
+        "Governance",
+        "Statistical analysis"
+        ],
+        correct: 3,
+        explanation:
+        "【問題】ドキュメント、レコード、その他の非構造化コンテンツは組織にリスクをもたらすと同時に価値を生みますが、このリスク管理と価値創出の両方に必要なのは何でしょうか？\n" +
+        "【選択肢】A. 予測分析  B. データモデリング技術  C. データレプリケーション  D. ガバナンス  E. 統計分析\n\n" +
+        "DMBOKによると、非構造化データを適切に管理・活用するにはポリシーやプロセスを策定するガバナンス体制が不可欠であるため、正解はDです。"
+    },
+    {
+    question: 'Ensuring users have clear, accurate, and consistent information for decision-making is the goal of a:',
+    options: [
+        'Data security policy',
+        'Data quality program',
+        'Reporting strategy',
+        'Metadata management program',
+        'Data modeling practice'
+    ],
+    correct: 1,
+    explanation: '【問題】意思決定のためにユーザが明確で正確かつ一貫性のある情報を利用できるようにすることは、何の目的か？\n【選択肢】A. データセキュリティポリシー B. データ品質プログラム C. レポーティング戦略 D. メタデータ管理プログラム E. データモデリング手法\n\nDMBOKでは、データ品質プログラム（Data Quality Program）の主な目的は、データの明確性、正確性、一貫性を維持し、意思決定に必要な信頼性の高い情報を提供することと定義されています。したがって正答は「データ品質プログラム」です。'
+    }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById('question-number').textContent = '問題 ' + (current+1) + ' / ' + questions.length;
+      document.getElementById('question-text').textContent = q.question;
+      const opts = document.getElementById('options');
+      opts.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = ['A','B','C','D','E'][idx] + '. ' + opt;
+        btn.className = 'option-btn';
+        btn.dataset.idx = idx;
+        btn.onclick = () => selectOption(idx);
+        opts.appendChild(btn);
+      });
+      document.getElementById('explanation').style.display = 'none';
+      document.getElementById('next-btn').style.display = 'none';
+    }
+
+    function selectOption(selectedIdx) {
+      const q = questions[current];
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        const idx = Number(btn.dataset.idx);
+        btn.disabled = true;
+        if (idx === q.correct) {
+          btn.style.background = '#c8e6c9';
+          btn.textContent += ' ⭕️';
+        }
+        if (idx === selectedIdx && selectedIdx !== q.correct) {
+          btn.style.background = '#ffcdd2';
+          btn.textContent += ' ❌';
+        }
+      });
+      if (selectedIdx === q.correct) score++;
+      if (current < questions.length - 1) {
+        document.getElementById('next-btn').style.display = 'inline-block';
+      } else {
+        document.getElementById('score-btn').style.display = 'inline-block';
+      }
+    }
+
+    document.getElementById('explanation-btn').addEventListener('click', () => {
+      document.getElementById('explanation').textContent = questions[current].explanation;
+      document.getElementById('explanation').style.display = 'block';
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      current++;
+      showQuestion();
+    });
+
+    document.getElementById('score-btn').addEventListener('click', () => {
+      const rate = score / questions.length * 100;
+      let resultText = '';
+      if (rate < 60) resultText = '不合格';
+      else if (rate < 70) resultText = 'Associate合格';
+      else resultText = 'Practitioner合格';
+      document.getElementById('result').textContent = `あなたのスコア: ${score} / ${questions.length} (${rate.toFixed(1)}%) - ${resultText}`;
+      document.getElementById('score-btn').style.display = 'none';
+    });
+
+    showQuestion();
+  </script>
+</body>
 </html>
